@@ -5,7 +5,9 @@ import QuestionCard from './components/QuestionCard';
 
 import { QuestionState, Difficulty } from './API';
 
-type AnswerObject = {
+import { GlobalStyle, Wrapper } from './App.styles';
+
+export type AnswerObject = {
     question: string;
     answer: string;
     correct: boolean;
@@ -58,18 +60,27 @@ const App = () => {
     };
 
     const nextQuestion = () => {
+        const nextQuestion = number + 1;
 
+        if (nextQuestion === TOTAL_QUESTIONS){
+            setGameOver(true);
+        }
+        else{
+            setNumber(nextQuestion);
+        }
     };
     
     return (
-        <div className='App'>
+        <>
+        <GlobalStyle />
+        <Wrapper>
             <h1>REACT QUIZ</h1>
             {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
             <button className="start" onClick={startQuiz}>
                 Start
             </button>
             ) : null}
-            {!gameOver ? <p className="score">Score</p> : null}
+            {!gameOver ? <p className="score">Score: {score}</p> : null}
             {loading ? <p>Loading questions...</p> : null}
             {!loading && !gameOver ? <QuestionCard
             questionNum={number + 1}
@@ -83,7 +94,8 @@ const App = () => {
             <button className="next" onClick={nextQuestion}>
                 Next Question
             </button> : null}
-        </div>
+        </Wrapper>
+        </>
     )
 };
 
